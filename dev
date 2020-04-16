@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]; then
+  echo "add options"
+elif [[ "$1" == 'gen' ]]; then
+  echo "running"
+  $PROTOC -I . --go_out=plugins=micro:vessel/proto vessel/proto/vessel/vessel.proto | echo
+  echo "end"
+elif [[ "$1" == 'micro' ]]; then
+  echo "running"
+  $PROTOC -I ./ proto/consignment/consignment.proto --micro_out=gen --go_out=gen | echo
+  echo "end"
+elif [[ "$1" == 'grpc' ]]; then
+  echo "running"
+  $PROTOC -I ./ proto/consignment/consignment.proto --micro_out=gen --go_out=plugins=grpc:gen | echo
+  echo "end"
+# elif [[ "$2" == 'gen' ]]; then
+#   if [[ "$2" == 'reset' ]]; then
+#     echo "Running droping table and running migration ..."
+#     buffalo-pop pop reset -e development
+#     echo "Finished running migration"
+#   elif [[ "$2" == 'migrate' ]]; then
+#     echo "running migration ..."
+#     buffalo-pop pop migrate up -e development
+#     echo "Finished running migration"
+#   elif [[ "$2" == 're-mi' ]]; then
+#     buffalo-pop pop reset -e development
+#     buffalo task db:seed
+#   elif [[ "$2" == 'seed' ]]; then
+#     buffalo task db:seed
+#   else
+#     buffalo-pop pop drop -e development
+#     buffalo-pop pop create -e development
+#     buffalo-pop pop migrate up -e development
+#     buffalo task db:seed
+#   fi
+fi
