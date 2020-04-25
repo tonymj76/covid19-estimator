@@ -4,15 +4,16 @@ package vessel;
 
 service VesselService {
   rpc FindAvailable (Specification) returns (Response);
+  rpc CreateVessel  (Vessel) returns (Response);
 }
 
 message Vessel {
-  string id = 1;
+  int64 id = 1;
   int32 capacity = 2;
   int32 max_weight = 3;
   string name = 4;
   bool available = 5;
-  string owner_id = 6;
+  int64 owner_id = 6;
 }
 
 message Specification {
@@ -23,4 +24,11 @@ message Specification {
 message Response {
   Vessel vessel = 1;
   repeated Vessel vessels = 2;
+  string created = 3;
 }
+
+// message User {
+//   // field containing id as UUID type
+//   required string email;
+//   optional string name;
+// }
