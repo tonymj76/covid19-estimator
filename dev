@@ -14,6 +14,24 @@ elif [[ "$1" == 'grpc' ]]; then
   echo "running"
   $PROTOC -I ./ proto/consignment/consignment.proto --micro_out=gen --go_out=plugins=grpc:gen | echo
   echo "end"
+elif [[ "$1" == 'dserver' ]]; then
+  echo "Build docker image"
+  docker build -t shippy-service-vessel .
+  echo "Run docker image"
+  docker run -p 50052:50051 -e MICRO_SERVER_ADDRESS=:50051 shippy-service-vessel
+  echo "end"
+
+#   elif [[ "$1" == 'dserver' ]]; then
+#   echo "running docker server..."
+#   docker run -p 50051:50051 \
+#       -e MICRO_SERVER_ADDRESS=:50051 \
+#       shippy-service-consignment
+#   echo "end"
+# elif [[ "$1" == 'dbuild' ]]; then
+#   echo "running docker server..."
+#   docker build -t shippy-service-consignment .
+#   echo "end"
+
 # elif [[ "$2" == 'gen' ]]; then
 #   if [[ "$2" == 'reset' ]]; then
 #     echo "Running droping table and running migration ..."
